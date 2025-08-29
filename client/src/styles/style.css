@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme base {
+    --color-light-degraded-90deg: linear-gradient(90deg, hsl(0, 0%, 100%), hsla(256, 35%, 48%, 50%));
+    --color-dark-degraded-90deg: linear-gradient(90deg, hsl(0, 0%, 0%), hsl(256, 35%, 48%));
+
+    --color-light-degraded-180deg: linear-gradient(180deg, hsl(0, 0%, 100%), hsla(256, 35%, 48%, 50%));
+    --color-dark-degraded-180deg: linear-gradient(180deg, hsl(0, 0%, 0%), hsl(256, 35%, 48%));
+
+    --color-light-footer: linear-gradient(180deg, hsl(0, 0%, 100%), hsla(256, 52%, 44%, 50%));
+    --color-dark-footer: hsl(330, 10%, 8%);
+
+    --color-light-wrapper: hsl(0, 0%, 100%);
+    --color-dark-wrapper: hsl(0, 0%, 55%);
+
+    --color-light-content: hsl(0, 0%, 55%);
+    --color-dark-content: hsl(0, 0%, 100%);
+
+    --color-light-line: hsl(0, 0%, 55%);
+    --color-dark-line: hsl(0, 0%, 100%);
+
+    --color-primary-search: hsl(215, 36%, 36%);
+    --color-primary-note: hsl(47, 100%, 51%);
+    --color-primary-star: hsl(36, 100%, 60%);
+
+    --color-primary-accent-1: hsl(256, 35%, 48%);
+    --color-primary-accent-2: hsl(11, 92%, 46%);
+    --color-primary-accent-3: hsl(356, 95%, 46%);
+    --color-primary-accent-4: hsl(48, 100%, 67%);
+    --color-primary-accent-5: hsl(0, 0%, 36%);
+
+    --color-secondary-accent-1: hsla(256, 35%, 48%, 50%);
+    --color-secondary-accent-2: hsla(11, 92%, 46%, 50%);
+    --color-secondary-accent-3: hsla(356, 95%, 46%, 50%);
+    --color-secondary-accent-4: hsla(48, 100%, 67%, 50%);
+    --color-secondary-accent-5: hsla(0, 0%, 36%, 50%);
+
+
+    --color-light-neutral-100: hsl(0, 0%, 100%);
+    --color-dark-neutral-100: hsl(0, 0%, 0%);
+}
+
+@layer components {
+    .background-90deg {
+        background: var(--color-light-degraded-90deg);
+    }
+    .background-180deg {
+        background: var(--color-light-degraded-180deg);
+    }
+    .background-footer {
+        background: var(--color-light-footer);
+    }
+
+    [data-theme=dark] .background-90deg {
+        background: var(--color-dark-degraded-90deg);
+    }
+    [data-theme=dark] .background-180deg {
+        background: var(--color-dark-degraded-180deg);
+    }
+    [data-theme=dark] .background-footer {
+        background: var(--color-dark-footer);
+    }
+}
+
+@layer base {
+    body {
+        min-width: 100vw; overflow-x: hidden;
+        min-height: 100vh;
+    }
+}
