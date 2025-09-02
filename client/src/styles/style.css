@@ -49,8 +49,7 @@
         @apply bg-light-neutral-100 dark:bg-dark-neutral-100;
     }
     #root {
-        min-width: 100vw; min-height: 100vh;
-        display: grid; place-items: center;
+        min-width: inherit; min-height: inherit;
     }
 }
 

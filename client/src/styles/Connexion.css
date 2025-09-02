@@ -4,11 +4,9 @@
 
     /*Login & Signup pages classes*/
     .connexion-wrapper {
-
-
-        width: min(100%, 450px);
-        @apply grid place-items-center gap-10;
-        @apply m-8 px-8 pt-16 pb-12 rounded-[50px];
+        width: clamp(280px, 90%, 450px);
+        @apply justify-self-center grid place-items-center gap-10;
+        @apply m-8 px-8 pt-16 pb-12 rounded-[50px] box-border;
         & * { transition: background-color 300ms ease-out; }
     }
 
@@ -17,7 +15,7 @@
         & a {
             @apply flex-1 h-[50px] inline-grid place-items-center rounded-[20px] font-black uppercase cursor-pointer;
             @apply text-white bg-secondary-accent-5 backdrop-blur-md hover:bg-secondary-accent-2;}
-        & span { @apply w-1 bg-white inline-block;}
+        & .bar { @apply w-1 bg-white inline-block;}
     }
 
     .connexion-form {
@@ -30,9 +28,19 @@
     }
 
     .connexion-uploader {
-        @apply text-white file:text-black file:bg-white hover:file:bg-neutral-100;
-        @apply hover:file:cursor-pointer file:w-fit file:h-[50px] file:px-4 file:rounded-[20px] file:font-bold file:mr-4;
+        display: none;
+        label:has(&) {
+            &::before {
+                content: "Upload"; display: inline-grid; place-items: center;
+                @apply text-black bg-white hover:bg-neutral-100 cursor-pointer;
+                @apply hover:cursor-pointer w-fit h-[50px] px-8 rounded-[20px] font-bold mr-4;}
+            &::after {
+                content: "Choose your profile picture"; display: inline-grid; place-items: center;
+                @apply text-sm text-white max-[380px]:max-w-[80px] max-[410px]:text-xs;
+            }
+        }
     }
+    .file-uploaded { label:has(&) { &::after { content: "File uploaded !" !important; } } }
 
     .connexion-button {
         @apply h-[50px] mt-8 inline-grid place-items-center rounded-[20px] font-black uppercase cursor-pointer;
