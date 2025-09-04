@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./Connexion.css";
+@import "PopupMessage.css";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 

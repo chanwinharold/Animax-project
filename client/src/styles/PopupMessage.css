@@ -1,0 +1,13 @@
+
+@layer components {
+    .popup-animation {
+        animation-name: popup;
+        animation-duration: 800ms;
+        animation-timing-function: ease-out;
+    }
+
+    @keyframes popup {
+        from { top: -100%; }
+        to { top: 1.5rem; }
+    }
+}

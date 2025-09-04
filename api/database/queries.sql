@@ -5,8 +5,8 @@ CREATE TABLE Utilisateurs (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL UNIQUE,
-    user_img VARCHAR(255) DEFAULT 'user-pictures/default_picture.png'
+    password VARCHAR(255) NOT NULL,
+    user_img VARCHAR(255) NOT NULL DEFAULT 'user-pictures/default_picture.png'
 );
 
 INSERT INTO Utilisateurs (username, email, password, user_img)
@@ -15,3 +15,5 @@ INSERT INTO Utilisateurs (username, email, password, user_img)
 SELECT id, username, password
 FROM Utilisateurs
 WHERE username = ?
+
+# DROP TABLE Utilisateurs;

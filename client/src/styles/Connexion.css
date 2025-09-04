@@ -5,7 +5,7 @@
     /*Login & Signup pages classes*/
     .connexion-wrapper {
         width: clamp(280px, 90%, 450px);
-        @apply justify-self-center grid place-items-center gap-10;
+        @apply place-self-center grid place-items-center gap-10;
         @apply m-8 px-8 pt-16 pb-12 rounded-[50px] box-border;
         & * { transition: background-color 300ms ease-out; }
     }

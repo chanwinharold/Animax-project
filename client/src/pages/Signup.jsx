@@ -1,21 +1,20 @@
 import React, {useState} from 'react';
-import {Link} from "react-router-dom";
-// import axios from "axios";
+import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
+
+// TODO -> Gérer la duplicata d'utilisateur,
+//  la popup d'erreur pour le Sign up et le Login et
+//  la logique backend pour mieux gérer les erreurs.
 
 function Signup() {
-    const [value, setValue] = useState({username:"", email:"", password:""})
-    const [picture, setPicture] = useState(); const [errorPicture, setErrorPicture] = useState(false)
-    const [error, setError] = useState({errorUsername:false, errorEmail:false, errorPassword:false})
+    const [value, setValue] = useState({username:"", email:"", password:""});
+    const [error, setError] = useState({});
+    const [picture, setPicture] = useState(null);
+    const [errorPicture, setErrorPicture] = useState(false);
+    const Navigate = useNavigate()
 
-    const regexEmail = new RegExp("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{1,4}$")
+    const regexEmail = new RegExp("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{1,4}$");
 
-    const handleChange = (e) => {
-        const name = e.target.name
-        const value = e.target.value
-        setValue(values => (
-            {...values, [name]:value}
-        ))
-    }
     const handleUsername = () => {
         if (value.username==="") {
             setError(values => (
@@ -44,36 +43,48 @@ function Signup() {
         ))
     }
 
-    const handlePicture = (e) => {
-        if (e.target.files === undefined) return 0
-        if (e.target.files[0].size < 500000) {
-            setErrorPicture(false)
-            setPicture(e.target.files[0])
-        } else setErrorPicture(true)
+    const handleChange = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+        setValue(values => (
+            {...values, [name]:value}
+        ))
     }
 
-    // const handleFetch = async () => {
-    //     try {
-    //         return await axios.post('/api/auth/signup', {
-    //             username: value.username,
-    //             email: value.email,
-    //             password: value.password,
-    //             user_img: JSON.stringify(picture)
-    //         })
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
+    const handlePicture = (e) => {
+        if (e.target.files === undefined) return setPicture(null)
+        if (e.target.files[0].size < 500000) {
+            setErrorPicture(false)
+            setPicture(e.target.files[0]["name"])
+        } else {
+            setErrorPicture(true)
+            setPicture(null)
+        }
+    }
+
+    const handleFetch = async () => {
+        try {
+            const res = await axios.post('/api/auth/signup', {
+                username: value.username,
+                email: value.email,
+                password: value.password,
+                user_img: picture
+            })
+            Navigate("/login")
+            return res
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        const allValid = !(error.errorPassword && error.errorUsername && error.errorEmail)
-
-        if (allValid) {
-            console.log("Ok good !")
-            // handleFetch().then(r => console.log(r))
+        if (error.errorUsername + error.errorPassword + error.errorEmail + errorPicture === 0) {
+            handleFetch().then(r => console.log(r))
         } else {
-            console.log("No Bad !")
+            handleUsername();
+            handleEmail();
+            handlePassword();
         }
     }
 
@@ -90,7 +101,7 @@ function Signup() {
                     <input
                         value={value.username}
                         onChange={handleChange}
-                        onBlur={handleUsername}
+                        onInput={handleUsername}
                         id={"username"}
                         name={"username"}
                         type={"text"}
@@ -103,7 +114,7 @@ function Signup() {
                     <input
                         value={value.email}
                         onChange={handleChange}
-                        onBlur={handleEmail}
+                        onInput={handleEmail}
                         id={"email"}
                         name={"email"}
                         type={"email"}
@@ -116,7 +127,7 @@ function Signup() {
                     <input
                         value={value.password}
                         onChange={handleChange}
-                        onBlur={handlePassword}
+                        onInput={handlePassword}
                         id={"password"}
                         name={"password"}
                         type={"password"}
