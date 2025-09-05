@@ -12,10 +12,10 @@ exports.signup = (req, res) => {
             VALUE (?, ?, ?);
     `)
     bcrypt.hash(req.body.password, 10, (error, hash) => {
-        if (error) return res.status(500).json({message: `Erreur de hash du mot de passe\n ${error}`})
+        if (error) return res.status(500).json({message: `Erreur lors du hachage du mot de passe: ${error}`})
         animax_db.query(query, [req.body.username, req.body.email, hash, req.body.user_img],
             (error, ) => {
-                if (error) return res.status(500).json({message: `Erreur lors de l'enregistrement\n ${error}`})
+                if (error) return res.status(400).json({message: `This username or email is already used !`})
                 res.status(201).json({message: "Utilisateur enregistrée avec succès !"})
             })
     })
@@ -30,10 +30,10 @@ exports.login = (req, res) => {
     `)
     animax_db.query(query, [req.body.username],
         (error, result) => {
-            if (error) return res.status(500).json({message: `Erreur lors du transfert des données\n ${error}`})
+            if (error) return res.status(500).json({message: `Erreur lors du transfert des données: ${error}`})
             if (result.length === 0) return res.json({message: `Your username or password is incorrect !`})
             bcrypt.compare(req.body.password, result[0].password, (err, isValid) => {
-                if (error) return  res.status(500).json({message: `Erreur lors du transfert des données\n ${error}`})
+                if (error) return  res.status(500).json({message: `Erreur lors du transfert des données: ${error}`})
                 if (!isValid) return res.json({message: `Your username or password is incorrect !`})
                 else {
                     return res.status(200).json(

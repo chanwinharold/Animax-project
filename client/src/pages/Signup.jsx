@@ -1,19 +1,25 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 
-// TODO -> Gérer la duplicata d'utilisateur,
-//  la popup d'erreur pour le Sign up et le Login et
-//  la logique backend pour mieux gérer les erreurs.
+import PopupMessage from "../components/PopupMessage.jsx";
 
 function Signup() {
     const [value, setValue] = useState({username:"", email:"", password:""});
     const [error, setError] = useState({});
     const [picture, setPicture] = useState(null);
     const [errorPicture, setErrorPicture] = useState(false);
+    const [popupError, setPopupError] = useState(null)
     const Navigate = useNavigate()
 
     const regexEmail = new RegExp("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{1,4}$");
+
+    // Pour gérer l'affichage du popup d'erreur : Disparaît après 5s.
+    useEffect(() => {
+        setTimeout(() => {
+            setPopupError(null)
+        }, 5000)
+    }, [popupError]);
 
     const handleUsername = () => {
         if (value.username==="") {
@@ -55,7 +61,7 @@ function Signup() {
         if (e.target.files === undefined) return setPicture(null)
         if (e.target.files[0].size < 500000) {
             setErrorPicture(false)
-            setPicture(e.target.files[0]["name"])
+            setPicture(e.target.files)
         } else {
             setErrorPicture(true)
             setPicture(null)
@@ -72,15 +78,19 @@ function Signup() {
             })
             Navigate("/login")
             return res
-        } catch (err) {
-            console.log(err)
+        } catch (error) {
+            return error
         }
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
         if (error.errorUsername + error.errorPassword + error.errorEmail + errorPicture === 0) {
-            handleFetch().then(r => console.log(r))
+            handleFetch()
+                .then(res => {
+                    if (res.status === 400) setPopupError(res.response.data.message)
+                    else console.log(res)
+                })
         } else {
             handleUsername();
             handleEmail();
@@ -90,13 +100,14 @@ function Signup() {
 
     return (
         <main className={"connexion-wrapper background-connexion"}>
+            {popupError ? <PopupMessage>{popupError}</PopupMessage>: null}
             <div className={"connexion-header"}>
                 <Link to={"/login"}><span className={"link"}>login</span></Link>
                 <span className={"bar"}></span>
                 <Link className={"bg-primary-accent-2"} to={"/signup"}><span>sign up</span></Link>
             </div>
 
-            <form onSubmit={handleSubmit} className={"connexion-form"}>
+            <form encType={"multipart/form-data"} onSubmit={handleSubmit} className={"connexion-form"}>
                 <label className={"connexion-input"}>
                     <input
                         value={value.username}

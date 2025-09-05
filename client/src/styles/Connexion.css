@@ -1,11 +1,18 @@
 @import "tailwindcss";
 
+@layer base {
+    #root:has(.connexion-wrapper) {
+        display: grid;
+        place-items: center;
+    }
+}
+
 @layer components {
 
     /*Login & Signup pages classes*/
     .connexion-wrapper {
         width: clamp(280px, 90%, 450px);
-        @apply place-self-center grid place-items-center gap-10;
+        @apply grid place-items-center gap-10;
         @apply m-8 px-8 pt-16 pb-12 rounded-[50px] box-border;
         & * { transition: background-color 300ms ease-out; }
     }
