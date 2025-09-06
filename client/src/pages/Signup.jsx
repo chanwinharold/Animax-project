@@ -61,20 +61,32 @@ function Signup() {
         if (e.target.files === undefined) return setPicture(null)
         if (e.target.files[0].size < 500000) {
             setErrorPicture(false)
-            setPicture(e.target.files)
+            setPicture(e.target.files[0])
         } else {
             setErrorPicture(true)
             setPicture(null)
         }
     }
 
+    const upload = async () => {
+        const formData = new FormData()
+        formData.append('picture', picture)
+        try {
+            const res = await axios.post('/api/auth/upload', formData)
+            return res.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const handleFetch = async () => {
+        const user_img = await upload()
         try {
             const res = await axios.post('/api/auth/signup', {
                 username: value.username,
                 email: value.email,
                 password: value.password,
-                user_img: picture
+                user_img: user_img ? 'user-pictures/' + user_img : null
             })
             Navigate("/login")
             return res
@@ -107,7 +119,7 @@ function Signup() {
                 <Link className={"bg-primary-accent-2"} to={"/signup"}><span>sign up</span></Link>
             </div>
 
-            <form encType={"multipart/form-data"} onSubmit={handleSubmit} className={"connexion-form"}>
+            <form onSubmit={handleSubmit} className={"connexion-form"}>
                 <label className={"connexion-input"}>
                     <input
                         value={value.username}
@@ -155,6 +167,7 @@ function Signup() {
                            type={"file"}
                            accept={"image/jpeg, image/jpg, image/png"}
                     />
+                    <span>{picture ? picture.name : "No file uploaded"}</span>
                 </label>
                 {errorPicture ? <span className={"connexion-error"}>No more than 500ko file size</span> : null}
 

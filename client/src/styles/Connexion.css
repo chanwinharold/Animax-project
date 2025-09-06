@@ -41,13 +41,12 @@
                 content: "Upload"; display: inline-grid; place-items: center;
                 @apply text-black bg-white hover:bg-neutral-100 cursor-pointer;
                 @apply hover:cursor-pointer w-fit h-[50px] px-8 rounded-[20px] font-bold mr-4;}
-            &::after {
+            span {
                 content: "Choose your profile picture"; display: inline-grid; place-items: center;
                 @apply text-sm text-white max-[380px]:max-w-[80px] max-[410px]:text-xs;
             }
         }
     }
-    .file-uploaded { label:has(&) { &::after { content: "File uploaded !" !important; } } }
 
     .connexion-button {
         @apply h-[50px] mt-8 inline-grid place-items-center rounded-[20px] font-black uppercase cursor-pointer;
