@@ -42,17 +42,25 @@
 
     --color-light-neutral-100: hsl(0, 0%, 100%);
     --color-dark-neutral-100: hsl(0, 0%, 0%);
+
+    --font-railey: "railey", sans-serif;
 }
 
 @layer base {
+    @font-face {
+        font-family: "railey";
+        src: url(../fonts/railey/Railey-PersonalUse.ttf);
+    }
     body {
         min-width: 100vw; min-height: 100vh; overflow-x: hidden;
+        font-family: Montserrat, sans-serif;
         @apply bg-light-neutral-100 dark:bg-dark-neutral-100;
         transition-property: background-color, color, outline-color, fill;
         transition-duration: 600ms;
     }
     #root {
-        min-width: inherit; min-height: inherit;
+        max-width: 1440px; min-height: inherit;
+        margin: auto;
     }
 }
 
@@ -76,5 +84,9 @@
     }
     [data-theme=dark] .background-footer {
         background: var(--color-dark-footer);
+    }
+
+    .connexion-wrapper, .choice-wrapper {
+        .btn-theme {@apply absolute min-lg:right-8 top-5;}
     }
 }

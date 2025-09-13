@@ -5,7 +5,7 @@ import ThemeButton from "../components/ThemeButton.jsx";
 
 
 function Login() {
-    const [value, setValue] = useState({})
+    const [value, setValue] = useState({username:"", password:""})
     const [errorMessage, setErrorMessage] = useState(null)
     const Navigate = useNavigate()
 
@@ -26,7 +26,7 @@ function Login() {
             if (res.data.message) {setErrorMessage(res.data.message)}
             else {
                 setErrorMessage(null)
-                Navigate("/")
+                Navigate("/choice-genres")
             }
         } catch (error) {
             console.log(error)

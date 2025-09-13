@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 function ThemeButton() {
-    const [theme, setTheme] = useState('light')
+    const [theme, setTheme] = useState(localStorage.getItem('theme'))
 
-    document.documentElement.setAttribute('data-theme', theme)
+    useEffect(() => {
+        localStorage.setItem('theme', theme)
+    }, [theme]);
+
+    document.documentElement.setAttribute('data-theme', theme || 'light')
     const handleTheme = (e) => {
         if (e.target.checked) {
             setTheme('dark')
