@@ -48,6 +48,8 @@
     body {
         min-width: 100vw; min-height: 100vh; overflow-x: hidden;
         @apply bg-light-neutral-100 dark:bg-dark-neutral-100;
+        transition-property: background-color, color, outline-color, fill;
+        transition-duration: 600ms;
     }
     #root {
         min-width: inherit; min-height: inherit;

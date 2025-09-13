@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import ThemeButton from "../components/ThemeButton.jsx";
 
 
 function Login() {
@@ -34,6 +35,7 @@ function Login() {
 
     return (
         <main className={"connexion-wrapper background-connexion"}>
+            <ThemeButton />
             <div className={"connexion-header"}>
                 <Link className={"bg-primary-accent-2"} to={"/login"}><span>login</span></Link>
                 <span className={"bar"}></span>

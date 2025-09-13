@@ -3,6 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 
 import PopupMessage from "../components/PopupMessage.jsx";
+import ThemeButton from "../components/ThemeButton.jsx";
 
 function Signup() {
     const [value, setValue] = useState({username:"", email:"", password:""});
@@ -112,6 +113,7 @@ function Signup() {
 
     return (
         <main className={"connexion-wrapper background-connexion"}>
+            <ThemeButton />
             {popupError ? <PopupMessage>{popupError}</PopupMessage>: null}
             <div className={"connexion-header"}>
                 <Link to={"/login"}><span className={"link"}>login</span></Link>
