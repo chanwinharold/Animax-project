@@ -116,7 +116,7 @@ function Signup() {
             <ThemeButton />
             {popupError ? <PopupMessage>{popupError}</PopupMessage>: null}
             <div className={"connexion-header"}>
-                <Link to={"/login"}><span className={"link"}>login</span></Link>
+                <Link to={"/login"}><span>login</span></Link>
                 <span className={"bar"}></span>
                 <Link className={"bg-primary-accent-2"} to={"/signup"}><span>sign up</span></Link>
             </div>

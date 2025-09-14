@@ -3,6 +3,7 @@
 @import "./PopupMessage.css";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+@plugin "daisyui";
 
 @theme base {
     --color-light-degraded-90deg: linear-gradient(90deg, hsl(0, 0%, 100%), hsla(256, 35%, 48%, 50%));
@@ -51,19 +52,36 @@
         font-family: "railey";
         src: url(../fonts/railey/Railey-PersonalUse.ttf);
     }
-    body {
+    html, body {
         min-width: 100vw; min-height: 100vh; overflow-x: hidden;
         font-family: Montserrat, sans-serif;
-        @apply bg-light-neutral-100 dark:bg-dark-neutral-100;
         transition-property: background-color, color, outline-color, fill;
         transition-duration: 600ms;
+        @apply bg-light-neutral-100 dark:bg-black;
     }
     #root {
         max-width: 1440px; min-height: inherit;
         margin: auto;
     }
+
+
+    /**************************************************/
+    /*******************  KEYFRAMES  ******************/
+    /**************************************************/
+    @keyframes fall {
+        from {opacity: 0; transform: translateY(-50px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+    @keyframes bounce-up {
+        from {opacity: 0; transform: translateY(100%)}
+        to {opacity: 1; transform: translateY(0)}
+    }
 }
 
+
+/**************************************************/
+/**************  STYLE COMPONENTS  ****************/
+/**************************************************/
 @layer components {
     /*Light mode backgrounds*/
     .background-90deg {
@@ -88,5 +106,12 @@
 
     .connexion-wrapper, .choice-wrapper {
         .btn-theme {@apply absolute min-lg:right-8 top-5;}
+    }
+
+    .animate-choice {
+        animation: fall ease-out 500ms;
+    }
+    .animate-btn-save {
+        animation: bounce-up ease-out 500ms;
     }
 }

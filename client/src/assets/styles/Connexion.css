@@ -31,7 +31,7 @@
 
     .connexion-input {
         @apply bg-white h-[50px] rounded-[20px];
-        & input { @apply w-full h-full rounded-[20px] outline-none px-8; }
+        & input { @apply w-full h-full rounded-[20px] outline-none px-8 text-black; }
     }
 
     .connexion-uploader {
