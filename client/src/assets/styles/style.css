@@ -56,7 +56,7 @@
         min-width: 100vw; min-height: 100vh; overflow-x: hidden;
         font-family: Montserrat, sans-serif;
         transition-property: background-color, color, outline-color, fill;
-        transition-duration: 600ms;
+        transition-duration: 600ms; scroll-behavior: smooth;
         @apply bg-light-neutral-100 dark:bg-black;
     }
     #root {
@@ -109,9 +109,9 @@
     }
 
     .animate-choice {
-        animation: fall ease-out 500ms;
+        animation: fall ease-out 600ms;
     }
     .animate-btn-save {
-        animation: bounce-up ease-out 500ms;
+        animation: bounce-up ease-out 600ms;
     }
 }

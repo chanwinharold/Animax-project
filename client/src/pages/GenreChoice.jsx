@@ -20,6 +20,8 @@ function GenreChoice() {
         return 0
     }
 
+    console.log(Genres)
+
     return (
         <div className={"choice-wrapper max-lg:mt-16 grid place-items-center gap-y-12 p-8"}>
             <ThemeButton />
@@ -56,7 +58,7 @@ export default GenreChoice;
 function Genre({image, genre}) {
 
     return (
-        <div className={"animate-choice w-fit inline-grid gap-y-4 place-items-center m-4"}>
+        <div className={"animate-choice justify-self-center max-w-[155px] max-h-[195px] w-fit inline-grid gap-y-4 place-items-center m-4"}>
             <img className={"self-center w-32 h-32 rounded-full object-cover"} src={image} alt={"genre d'anime"} />
             <span className={"text-center font-bold text-dark-neutral-100 dark:text-light-neutral-100"}>{genre}</span>
         </div>
@@ -65,7 +67,7 @@ function Genre({image, genre}) {
 
 function SaveButton({onSave}) {
     return (
-        <div onClick={onSave} className={"animate-btn-save fixed z-50 bg-[#A1A1A11F] bottom-0 right-0 left-0 h-18 inline-grid"}>
+        <div onClick={onSave} className={"animate-btn-save backdrop-blur-sm fixed z-50 bg-[#A1A1A11F] bottom-0 right-0 left-0 h-18 inline-grid"}>
             <span className={"relative z-10 px-6 py-3 m-auto rounded-lg text-white bg-primary-accent-4 font-bold inline-grid place-items-center"}>Save</span>
         </div>
     );
