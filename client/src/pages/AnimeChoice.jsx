@@ -1,27 +1,29 @@
 import ThemeButton from "../components/ThemeButton.jsx";
 import {Link} from "react-router-dom";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
 
 function AnimeChoice() {
-    const [Animes, setAnimes] = useState(null)
+    const [Animes, setAnimes] = useState([])
     const [page, setPage] = useState(1)
+    const lastElementRef = useRef(null)
 
     useEffect(() => {
         const handleFetch = async () => {
-            return await axios.get(`https://api.jikan.moe/v4/top/anime?page=${page}`)}
-        handleFetch()
-            .then(res => {
-                setAnimes(res.data['data'])
-            })
+            try {
+                const res = await axios.get(`https://api.jikan.moe/v4/top/anime?page=${page}`)
+                const resData = res.data['data']
+
+                setAnimes(prevState => {
+                    const existingID = new Set(prevState.map(anime => anime.mal_id))
+                    const newAnimes = resData.filter(anime => !existingID.has(anime.mal_id))
+                    return [...prevState, ...newAnimes]
+                })
+            } catch (e) { return e }
+        }
+        handleFetch().then(error => error && console.error(error))
     }, [page]);
 
-    const handlePage = (increment) => {
-        if (increment) {
-            setPage(prevState => prevState+1)
-        } else setPage(prevState => prevState>0 ? prevState-1 : 1)
-        scrollTo(0, 0)
-    }
     const handleSave = () => {
         return 0
     }
@@ -34,20 +36,20 @@ function AnimeChoice() {
                 Choisissez au moins 5 de vos animés préférés
             </h1>
             {
-                Animes ? (
-                    <div className={"relative w-full min-[768px]:grid min-[768px]:grid-cols-4 min-[768px]:justify-between flex flex-wrap justify-around"}>
+                Animes.length !== 0 ? (
+                    <div className={"w-full min-[768px]:grid min-[768px]:grid-cols-4 min-[768px]:justify-between flex flex-wrap justify-around"}>
                         {
-                            Animes.map(anime => (
+                            Animes.map((anime, index) => (
                                 <Anime
                                     key={`${anime.mal_id}-${anime.title.replace(' ', '')}`}
                                     image={anime.images.jpg.image_url}
                                     anime={anime.title}
+                                    // ref={index === Animes.length - 1 ? lastElementRef : null}
                                 />
                             ))
                         }
-                        <div className={"inline-flex justify-between place-items-center"}>
-                            <p onClick={() => handlePage(false)} className={"cursor-pointer"}>Précédent</p>
-                            <p onClick={() => handlePage(true)} className={"cursor-pointer"}>Suivant</p>
+                        <div className={"inline-flex place-items-center"}>
+                            <p onClick={() => setPage(x => x+1)} className={"cursor-pointer"}>Suivant</p>
                         </div>
                     </div>
                 ) : (
@@ -62,8 +64,9 @@ function AnimeChoice() {
 }
 export default AnimeChoice;
 
-function Anime({image, anime}) {
 
+
+function Anime({image, anime}) {
     return (
         <div className={"animate-choice justify-self-center max-w-[155px] max-h-[195px] w-fit inline-grid gap-y-4 place-items-center m-4"}>
             <img className={"self-center w-32 h-32 rounded-full object-cover"} src={image} alt={"genre d'anime"} />
