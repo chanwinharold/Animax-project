@@ -114,4 +114,9 @@
     .animate-btn-save {
         animation: bounce-up ease-out 600ms;
     }
+
+    .text-neon {
+        color: #FFFFFF;
+        text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #E13109FF, 0 0 30px #E13109FF, 0 0 40px #E13109FF, 0 0 50px #E13109FF, 0 0 75px #E13109FF;
+    }
 }

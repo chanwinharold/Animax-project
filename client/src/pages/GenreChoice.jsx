@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import image from "/assets/images/demon_slayer.png"
 import ThemeButton from "../components/ThemeButton.jsx";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
 function GenreChoice() {
     const [Genres, setGenres] = useState(null)
+    const [isEnough, setIsEnough] = useState(true)
+    const Navigate = useNavigate()
 
     useEffect(() => {
         const handleFetch = async () => {
@@ -17,10 +18,8 @@ function GenreChoice() {
     }, []);
 
     const handleSave = () => {
-        return 0
+        Navigate("/choice-animes")
     }
-
-    console.log(Genres)
 
     return (
         <div className={"choice-wrapper max-lg:mt-16 grid place-items-center gap-y-12 p-8"}>
@@ -31,12 +30,11 @@ function GenreChoice() {
             </h1>
             {
                 Genres ? (
-                    <div className={"w-full min-[768px]:grid min-[768px]:place-items-center min-[768px]:grid-cols-4 min-[768px]:justify-between flex flex-wrap justify-around"}>
+                    <div className={"w-full flex gap-8 flex-wrap justify-center"}>
                         {
                             Genres.map(genre => (
                                 <Genre
                                     key={`${genre.mal_id}-${genre.name.replace(' ', '')}`}
-                                    image={image}
                                     genre={genre.name}
                                 />
                             ))
@@ -48,27 +46,30 @@ function GenreChoice() {
                     </div>
                 )
             }
-            {<Link to={"/choice-animes"}><SaveButton onSave={() => handleSave()}/></Link>}
+            {isEnough ? <SaveButton onSave={() => handleSave()}/> : null}
         </div>
     );
 }
 
 export default GenreChoice;
 
-function Genre({image, genre}) {
+function Genre({genre}) {
 
     return (
-        <div className={"animate-choice justify-self-center max-w-[155px] max-h-[195px] w-fit inline-grid gap-y-4 place-items-center m-4"}>
-            <img className={"self-center w-32 h-32 rounded-full object-cover"} src={image} alt={"genre d'anime"} />
-            <span className={"text-center font-bold text-dark-neutral-100 dark:text-light-neutral-100"}>{genre}</span>
+        <div tabIndex={0} className={"hover:scale-110 hover:opacity-70 duration-400 cursor-pointer animate-choice dark:bg-[url(/assets/images/bg-genre-dark.jpeg)] bg-[url(/assets/images/bg-genre-light.jpeg)] justify-self-center w-48 h-80 rounded-lg shadow-xl border-5 inline-grid gap-y-4 place-items-center m-4"}>
+            <span className={"text-neon uppercase text-xl px-8 text-wrap max-w-50 wrap-break-word text-center font-bold"}>
+                {genre}
+            </span>
         </div>
     )
 }
 
 function SaveButton({onSave}) {
     return (
-        <div onClick={onSave} className={"animate-btn-save backdrop-blur-sm fixed z-50 bg-[#A1A1A11F] bottom-0 right-0 left-0 h-18 inline-grid"}>
-            <span className={"relative z-10 px-6 py-3 m-auto rounded-lg text-white bg-primary-accent-4 font-bold inline-grid place-items-center"}>Save</span>
+        <div className={"animate-btn-save backdrop-blur-sm fixed z-50 bg-[#A1A1A11F] bottom-0 right-0 left-0 h-18 inline-grid"}>
+            <span onClick={onSave} className={"cursor-pointer relative z-10 px-6 py-3 m-auto rounded-lg text-white bg-primary-accent-4 font-bold inline-grid place-items-center"}>
+                Save
+            </span>
         </div>
     );
 }
