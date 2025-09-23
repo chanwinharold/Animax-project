@@ -6,16 +6,19 @@ exports.signup = (req, res) => {
     delete req.body.id;
     const query = req.body.user_img ? (`
         INSERT INTO Utilisateurs (username, email, password, user_img)
-            VALUE (?, ?, ?, ?);
+            VALUES (?, ?, ?, ?);
     `) : (`
-        INSERT INTO Utilisateurs (username, email, password)
-            VALUE (?, ?, ?);
+        INSERT INTO Utilisateurs (username, email, password, user_img)
+            VALUES (?, ?, ?, 'user-pictures/default_picture.png');
     `)
     bcrypt.hash(req.body.password, 10, (error, hash) => {
-        if (error) return res.status(500).json({message: `Erreur lors du hachage du mot de passe: ${error}`})
-        animax_db.query(query, [req.body.username, req.body.email, hash, req.body.user_img],
-            (error, ) => {
-                if (error) return res.status(400).json({message: `This username or email is already used !`})
+        if (error) return res.status(500).json({message: `Erreur lors du hachage du mot de passe`})
+        animax_db.run(query, [req.body.username, req.body.email, hash, req.body.user_img],
+            (error) => {
+                if (error) {
+                    if (error.errno === 19) return res.status(400).json({message: "This username or email is already used"})
+                    return res.status(400).json({message: "Invalid field(s) ! Please enter correct value(s)"})
+                }
                 res.status(201).json({message: "Utilisateur enregistrée avec succès !"})
             })
     })
@@ -28,18 +31,18 @@ exports.login = (req, res) => {
         FROM Utilisateurs
         WHERE username = ?
     `)
-    animax_db.query(query, [req.body.username],
+    animax_db.get(query, [req.body.username],
         (error, result) => {
-            if (error) return res.status(500).json({message: `Erreur lors du transfert des données: ${error}`})
-            if (result.length === 0) return res.json({message: `Your username or password is incorrect !`})
-            bcrypt.compare(req.body.password, result[0].password, (err, isValid) => {
-                if (error) return  res.status(500).json({message: `Erreur lors du transfert des données: ${error}`})
+            if (error) return res.status(500).json({message: `Erreur lors du transfert des données`})
+            if (!result) return res.json({message: `Your username or password is incorrect !`})
+            bcrypt.compare(req.body.password, result.password, (error, isValid) => {
+                if (error) return  res.status(500).json({message: `Erreur lors du transfert des données`})
                 if (!isValid) return res.json({message: `Your username or password is incorrect !`})
                 else {
                     return res.status(200).json(
                         {
                             token: jwt.sign(
-                                {userId: result[0].id},
+                                {userId: result.id},
                                 process.env.TOKEN_KEY_SECRET,
                                 {expiresIn: '24h'}
                             )
