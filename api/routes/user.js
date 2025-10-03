@@ -7,8 +7,10 @@ router.post("/signup", signup)
 router.post("/login", login)
 
 router.post("/upload", upload.single('picture'), (req, res) => {
-    const file = req.file
-    res.status(200).json(file.filename)
+    if (req.file){
+        const file = req.file
+        res.status(200).json(file.filename)
+    } else res.status(200).json(null)
 })
 
 module.exports = router

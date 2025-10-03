@@ -15,15 +15,15 @@ function Signup() {
 
     const regexEmail = new RegExp("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{1,4}$");
 
-    // Pour gérer l'affichage du popup d'erreur : Disparaît après 5s.
+    // Pour gérer l'affichage du popup d'erreur : Disparaît après 6s.
     useEffect(() => {
         setTimeout(() => {
             setPopupError(null)
-        }, 5000)
+        }, 6000)
     }, [popupError]);
 
     const handleUsername = () => {
-        if (value.username==="") {
+        if (value.username.length === 0) {
             setError(values => (
                 {...values, errorUsername:true}
             ))

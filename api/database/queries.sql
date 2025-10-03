@@ -3,7 +3,7 @@ CREATE TABLE Utilisateurs (
     username TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
-    user_img TEXT NOT NULL DEFAULT 'user-pictures/default_picture.png'
+    user_img TEXT
 );
 
 INSERT INTO Utilisateurs (username, email, password, user_img)
