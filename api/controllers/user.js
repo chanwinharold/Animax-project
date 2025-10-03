@@ -41,7 +41,7 @@ exports.signup = (req, res) => {
                     if (error.errno === 19) return res.status(400).json({message: "This username or email is already used"})
                     return res.status(400).json({message: "An error occurred ! Please try again."})
                 }
-                res.status(201).json({message: "User saved with success !"})
+                return res.status(201).json({message: "User saved with success !"})
             })
     })
 }
@@ -70,19 +70,19 @@ exports.login = (req, res) => {
             // check the password
             bcrypt.compare(req.body.password, result.password, (error, isValid) => {
                 // if an error occurred send a message
-                if (error) return  res.status(500).json({message: `An error occurred ! Please try again.`})
+                if (error) return res.status(500).json({message: `An error occurred ! Please try again.`})
 
                 // if your password aren't correct send a message
                 if (!isValid) return res.json({message: `Your username or password is incorrect !`})
                 else {
                     // else send a jwt token for the client authentification
-                    return res.status(200).json({
-                        token: jwt.sign(
-                            {userId: result.id},
-                            process.env.TOKEN_KEY_SECRET,
-                            {expiresIn: '24h'}
-                        )
-                    })
+                    const token = jwt.sign(
+                        {userId: result.id},
+                        process.env.TOKEN_KEY_SECRET,
+                        {expiresIn: '24h'}
+                    )
+                    const {password, ...others} = result
+                    return res.cookie("token", token, {httpOnly: true}).status(200).json(others)
                 }
             })
         })
