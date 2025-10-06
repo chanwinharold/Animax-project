@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./Connexion.css";
 @import "./PopupMessage.css";
+@import "./Header.css";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 @plugin "daisyui";
@@ -44,7 +45,15 @@
     --color-light-neutral-100: hsl(0, 0%, 100%);
     --color-dark-neutral-100: hsl(0, 0%, 0%);
 
+    --color-light: hsl(0, 0%, 30%);
+    --color-dark: hsl(0, 0%, 100%);
+
+    --color-dark-nav: rgba(255, 255, 255, 0.10);
+    --color-light-nav: rgba(0, 0, 0, 0.10);
+
     --font-railey: "railey", sans-serif;
+
+    --breakpoint-laptop: 1024px;
 }
 
 @layer base {
@@ -107,14 +116,12 @@
     .connexion-wrapper, .choice-wrapper {
         .btn-theme {@apply absolute min-lg:right-8 top-5;}
     }
-
     .animate-choice {
         animation: fall ease-out 600ms;
     }
     .animate-btn-save {
         animation: bounce-up ease-out 600ms;
     }
-
     .text-neon {
         color: #FFFFFF;
         text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #E13109FF, 0 0 30px #E13109FF, 0 0 40px #E13109FF, 0 0 50px #E13109FF, 0 0 75px #E13109FF;
