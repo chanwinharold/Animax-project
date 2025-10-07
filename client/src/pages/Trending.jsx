@@ -2,7 +2,7 @@ import React from 'react';
 
 function Trending() {
     return (
-        <div>Trending</div>
+        <main>Trending</main>
     );
 }
 

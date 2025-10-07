@@ -23,7 +23,7 @@ function Navbar() {
                 </picture>
             </span>
 
-            <nav className={`max-laptop:absolute ${showNav ? 'nav-mobile' : 'nav-mobile-hidden'}`}>
+            <nav className={`max-laptop:fixed max-laptop:z-20 ${showNav ? 'nav-mobile' : 'nav-mobile-hidden'}`}>
 
                 <div className={"min-laptop:hidden flex justify-between"}>
                     <span><img src={fullLogoUrl} alt="Animax logo" width={"100"}/></span>
