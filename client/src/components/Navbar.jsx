@@ -8,14 +8,20 @@ import menuHamburgerUrl from "../assets/icons/icon-menu-hamburger.svg"
 import menuCloseUrl from "../assets/icons/icon-menu-close.svg"
 import linkedInUrl from "../assets/icons/icon-linkedin.svg"
 import githubUrl from "../assets/icons/icon-github.svg"
+import searchUrl from "../assets/icons/icon-search.svg"
 
 import {Link} from "react-router-dom";
 
 function Navbar() {
     const [showNav, setShowNav] = useState(false)
+    const [searchValue, setSearchValue] = useState("")
+
+    const handleSearchChange = (e) => {
+        setSearchValue(e.target.value)
+    }
 
     return (
-        <header className={"w-full flex justify-between items-center max-sm:gap-4 gap-8 max-sm:px-4 px-8 py-4 background-90deg"}>
+        <header className={"max-w-screen overflow-x-hidden w-full flex justify-between items-center max-sm:gap-4 gap-8 max-sm:px-4 px-8 py-4 background-90deg"}>
             <span>
                 <picture>
                     <source srcSet={fullLogoUrl} width={"100"} media={"(min-width: 500px)"}/>
@@ -43,13 +49,16 @@ function Navbar() {
             </nav>
 
             <span className={"flex-1 w-full max-w-lg"}>
-                <label className={""}>
+                <label className={"relative"}>
                     <input
                         type="search"
                         id="searchbar"
                         placeholder={"SEARCH"}
+                        value={searchValue}
+                        onChange={handleSearchChange}
                         className={"search-bar w-full h-8 bg-primary-search rounded-full"}
                     />
+                    { searchValue.length===0 ? <span className={"absolute right-4"}><img src={`${searchUrl}`} alt="icone de recherche"/></span> : null }
                 </label>
             </span>
 

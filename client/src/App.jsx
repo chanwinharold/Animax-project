@@ -1,4 +1,5 @@
-import {createBrowserRouter, RouterProvider, Outlet, HydratedRouter} from "react-router-dom";
+import {createBrowserRouter, RouterProvider, Outlet} from "react-router-dom";
+
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import Home from "./pages/Home.jsx";
@@ -9,6 +10,10 @@ import Footer from "./components/Footer.jsx";
 import Sidebar from "./components/Sidebar.jsx";
 import Recommandation from "./pages/Recommandation.jsx";
 import Trending from "./pages/Trending.jsx";
+import Community from "./pages/Community.jsx";
+import Favorite from "./pages/Favorite.jsx";
+import Bookmark from "./pages/Bookmark.jsx";
+import WatchList from "./pages/WatchList.jsx";
 
 const router = createBrowserRouter([
     {
@@ -26,6 +31,22 @@ const router = createBrowserRouter([
             {
                 path: "/trending",
                 element: <Trending />
+            },
+            {
+                path: "/community",
+                element: <Community />,
+            },
+            {
+                path: "/favorite",
+                element: <Favorite />
+            },
+            {
+                path: "/bookmark",
+                element: <Bookmark />
+            },
+            {
+                path: "/watchlist",
+                element: <WatchList />,
             }
         ],
     },
@@ -50,6 +71,7 @@ const router = createBrowserRouter([
 function Layout() {
     return (
         <>
+            <Sidebar />
             <Navbar />
             <Outlet/>
             <Footer />
