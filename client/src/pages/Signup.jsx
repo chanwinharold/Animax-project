@@ -22,8 +22,8 @@ function Signup() {
         }, 6000)
     }, [popupError]);
 
-    const handleUsername = () => {
-        if (value.username.length === 0) {
+    const handleUsername = (v) => {
+        if (v.length === 0) {
             setError(values => (
                 {...values, errorUsername:true}
             ))
@@ -31,8 +31,8 @@ function Signup() {
             {...values, errorUsername:false}
         ))
     }
-    const handleEmail = () => {
-        if (!regexEmail.test(value.email)) {
+    const handleEmail = (v) => {
+        if (!regexEmail.test(v)) {
             setError(values => (
                 {...values, errorEmail:true}
             ))
@@ -40,8 +40,8 @@ function Signup() {
             {...values, errorEmail:false}
         ))
     }
-    const handlePassword = () => {
-        if (value.password.length < 7) {
+    const handlePassword = (v) => {
+        if (v.length < 8) {
             setError(values => (
                 {...values, errorPassword:true}
             ))
@@ -76,7 +76,7 @@ function Signup() {
             const res = await axios.post('/api/auth/upload', formData)
             return res.data
         } catch (error) {
-            console.log(error)
+            return setPopupError(error.message)
         }
     }
 
@@ -92,22 +92,18 @@ function Signup() {
             Navigate("/login")
             return res
         } catch (error) {
-            return error
+            if (error.status === 400) setPopupError(error.response.data.message)
         }
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
         if (error.errorUsername + error.errorPassword + error.errorEmail + errorPicture === 0) {
-            handleFetch()
-                .then(res => {
-                    if (res.status === 400) setPopupError(res.response.data.message)
-                    else console.log(res)
-                })
+            handleFetch().then()
         } else {
-            handleUsername();
-            handleEmail();
-            handlePassword();
+            handleUsername(value.username);
+            handleEmail(value.email);
+            handlePassword(value.password);
         }
     }
 
@@ -125,8 +121,7 @@ function Signup() {
                 <label className={"connexion-input"}>
                     <input
                         value={value.username}
-                        onChange={handleChange}
-                        onInput={handleUsername}
+                        onChange={(e) => {handleChange(e); handleUsername(e.target.value)}}
                         id={"username"}
                         name={"username"}
                         type={"text"}
@@ -138,8 +133,7 @@ function Signup() {
                 <label className={"connexion-input"}>
                     <input
                         value={value.email}
-                        onChange={handleChange}
-                        onInput={handleEmail}
+                        onChange={(e) => {handleChange(e); handleEmail(e.target.value)}}
                         id={"email"}
                         name={"email"}
                         type={"email"}
@@ -151,8 +145,7 @@ function Signup() {
                 <label className={"connexion-input"}>
                     <input
                         value={value.password}
-                        onChange={handleChange}
-                        onInput={handlePassword}
+                        onChange={(e) => {handleChange(e); handlePassword(e.target.value)}}
                         id={"password"}
                         name={"password"}
                         type={"password"}

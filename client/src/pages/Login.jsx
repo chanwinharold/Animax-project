@@ -1,13 +1,22 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import ThemeButton from "../components/ThemeButton.jsx";
+import PopupMessage from "../components/PopupMessage.jsx";
 
 
 function Login() {
     const [value, setValue] = useState({username:"", password:""})
     const [errorMessage, setErrorMessage] = useState(null)
+    const [popupError, setPopupError] = useState(null)
     const Navigate = useNavigate()
+
+    // Pour gérer l'affichage du popup d'erreur : Disparaît après 6s.
+    useEffect(() => {
+        setTimeout(() => {
+            setPopupError(null)
+        }, 6000)
+    }, [popupError]);
 
     const handleChange = (e) => {
         const name = e.target.name
@@ -29,13 +38,14 @@ function Login() {
                 Navigate("/choice-genres")
             }
         } catch (error) {
-            console.log(error)
+            setPopupError(error.message)
         }
     }
 
     return (
         <main className={"connexion-wrapper background-connexion"}>
             <ThemeButton />
+            {popupError ? <PopupMessage>{popupError}</PopupMessage>: null}
             <div className={"connexion-header"}>
                 <Link className={"bg-primary-accent-2"} to={"/login"}><span>login</span></Link>
                 <span className={"bar"}></span>

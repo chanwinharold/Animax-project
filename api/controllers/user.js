@@ -13,7 +13,7 @@ exports.signup = (req, res) => {
     if (req.body.email.length < 1)
         return res.status(400).json({message: "Email shouldn't be empty !"})
     if (!regexEmail.test(req.body.email))
-        return res.status(400).json({message: "Your email is invalid !\n Please enter a valid email."})
+        return res.status(400).json({message: "Your email is invalid ! Please enter a valid email."})
     if (req.body.password.length < 8)
         return res.status(400).json({message: "Password should contains at least 8 characters !"})
 
