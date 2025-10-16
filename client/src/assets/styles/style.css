@@ -67,7 +67,7 @@
         font-family: Montserrat, sans-serif;
         transition-property: background-color, color, outline-color, fill;
         transition-duration: 600ms; scroll-behavior: smooth;
-        @apply bg-light-neutral-100 dark:bg-black;
+        @apply bg-light-neutral-100 dark:bg-black text-[16px] max-sm:text-sm;
     }
     #root {
         max-width: 1440px; min-height: inherit;
@@ -133,5 +133,11 @@
     .sidebar-menu li:hover {
         cursor: pointer;
         svg path {@apply !fill-primary-accent-3;}
+    }
+    .sidebar-transition {
+        transition: left 450ms ease-in-out;
+    }
+    .btn-purple {
+        @apply uppercase cursor-pointer hover:bg-secondary-accent-1 hover:scale-110 transition-all duration-500 text-white font-light px-5 py-2 bg-primary-accent-1 rounded-full flex gap-x-2 items-center;
     }
 }
