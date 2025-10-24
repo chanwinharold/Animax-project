@@ -1,14 +1,48 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import axios from "axios";
 
 import favoriteUrl from "../assets/icons/icon-favorite-inactive.svg"
 import playBtnUrl from "../assets/icons/icon-play-button.png"
 import plusBtnUrl from "../assets/icons/icon-plus.svg"
 
 import animeBgUrl from "/assets/images/background.jpg"
+import clipUrl from "/assets/images/demon_slayer.png"
+import PopupMessage from "../components/PopupMessage.jsx";
 
 function Home() {
+    const [topAnime, setTopAnime] = useState(null)
+    const [popupError, setPopupError] = useState(null)
+
+    useEffect(() => {
+        handleFetch()
+            .then(res => {
+                if (res) setTopAnime(res.data.data)
+                else setPopupError("Failed to load data")
+            }).catch(() => {
+                setPopupError("An error occurred ! Please refresh your browser.")
+            })
+    }, []);
+
+    // Pour gérer l'affichage du popup d'erreur : Disparaît après 6s.
+    useEffect(() => {
+        setTimeout(() => {
+            setPopupError(null)
+        }, 6000)
+    }, [popupError]);
+
+    const handleFetch = () => {
+        try {
+            const res = axios.get('https://api.jikan.moe/v4/top/anime')
+            if (res) return res
+            else return null
+        } catch (e) {
+            return e
+        }
+    }
+
     return (
         <main className={"text-dark-neutral-100 dark:text-light-neutral-100"}>
+            {popupError ? <PopupMessage>{popupError}</PopupMessage>: null}
             <section className={`text-white relative min-sm:h-[500px] bg-cover bg-center py-16 px-28 max-md:px-8 flex flex-wrap-reverse min-md:justify-between`}>
                 <img className={"absolute inset-0 opacity-90 w-full h-full z-1 object-cover object-center"} src={animeBgUrl} alt=""/>
 
@@ -38,8 +72,17 @@ function Home() {
                 </div>
             </section>
 
-            <section>
-                {/*  Code here  */}
+            <section className={"min-h-fit py-20 px-4 grid place-items-center"}>
+                <div className={"canvas-area"}>
+                    <img className={"polygon-image"} src={`${clipUrl}`} alt="Anime image"/>
+                    <img className={"polygon-image"} src={`${clipUrl}`} alt="Anime image"/>
+                    <img className={"polygon-image"} src={`${clipUrl}`} alt="Anime image"/>
+                    <img className={"polygon-image"} src={`${clipUrl}`} alt="Anime image"/>
+                    <img className={"polygon-image"} src={`${clipUrl}`} alt="Anime image"/>
+                    <img className={"polygon-image"} src={`${clipUrl}`} alt="Anime image"/>
+                    <img className={"polygon-image"} src={`${clipUrl}`} alt="Anime image"/>
+                    <img className={"polygon-image"} src={`${clipUrl}`} alt="Anime image"/>
+                </div>
             </section>
         </main>
     );

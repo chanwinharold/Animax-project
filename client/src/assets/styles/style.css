@@ -3,6 +3,7 @@
 @import "./PopupMessage.css";
 @import "./Header.css";
 @import "./Footer.css";
+@import "./Home.css";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 @plugin "daisyui";
