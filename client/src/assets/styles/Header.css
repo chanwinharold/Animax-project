@@ -6,7 +6,7 @@
         img {cursor: pointer;}
         li {
             transition: border-color 400ms ease-in-out;
-            @apply border-2 border-transparent p-1 min-laptop:rounded-lg min-laptop:hover:border-2 dark:min-laptop:hover:border-white min-laptop:hover:border-black; }
+            @apply p-1 min-laptop:rounded-lg border-2 border-transparent dark:min-laptop:hover:border-white min-laptop:hover:border-black; }
     }
 }
 
